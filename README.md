@@ -12,10 +12,12 @@ potato is using apple notifications so only works with macOS versions.
 
 ## installation 
 Just open a terminal session and type these commands
-> cd
-> git clone https://github.com/vegadj/potato
-> chmod u+x $HOME/potato/potato.sh
-> echo 'alias "potato=$HOME/potato/potato.sh"' > .profile
+
+  cd
+  git clone https://github.com/vegadj/potato
+  chmod u+x $HOME/potato/potato.sh
+  echo 'alias "potato=$HOME/potato/potato.sh"' > .profile
+
 
 ## configuration
 potato configuration is very easy. Just open the main script with your favourite text editor and customise predefined settings for you purpose 
@@ -23,8 +25,8 @@ potato configuration is very easy. Just open the main script with your favourite
 ## running potato
 for your each event you have to re-run potato. potato has two level session categorizer. you can tag your session passing single string while executing. Example:
 
-> potato Project
-> potato "Programming Homework"
+  potato Project
+  potato "Programming Homework"
 
 After session time finished, potato will ask you a comment of your sesion for tracking what you did in that session. You can always hit enter to pass it empty. 
 
@@ -37,7 +39,8 @@ with a help of cloud storage, you can use potato with different computers with l
 ## chronometer feature
 If you want to track a event without a pomodoro, such as meeting, skype call, presentation, etc. you can use chronometer function. 
 Simply use `-c` flag when executing potato
-> potato -c "presentation"
+
+  potato -c "presentation"
 
 you can stop chronometer by hitting `ctrl+c` and record the event with a note.
 
