@@ -4,8 +4,8 @@
 
 pomodoroWorkMinutes=25
 pomodoroBreakMinutes=5
-pomodoroLogFile=$HOME/potato.csv
-#pomodoroLogFile=./test.csv
+#pomodoroLogFile=$HOME/potato.csv
+pomodoroLogFile=./test.csv
 datelogFormat="%d/%m/%y"
 hourlogFormat="%H:%M"
 BreakEndMessage="Working time"
@@ -17,7 +17,6 @@ notificationFlag=1 # Notification will pop up on the left corner
 sayFlag=1 # Audio alert
 autoBreakFlag=0 #
 
-
 ########################## Source ##########################
 # Do not change anything below this line if                #
 # you are not sure what you are doing                      #
@@ -26,6 +25,8 @@ autoBreakFlag=0 #
 ## Defaults
 chronometerFlag=0
 isInBreak=0
+verboseModeFlag=0
+secondsRefresh=59
 ## Default fi
 
 function main {
@@ -65,7 +66,7 @@ do
 	echo -ne "Min:$mins Sec:$secs\033[0K\r"
 	sleep 1
 	let "secs=secs+1"
-	if [ $secs -eq 60 ]; then
+	if [ $secs -eq $secondsRefresh ]; then
 	let "mins=mins+1"
 	let "secs=0"
 	fi
@@ -80,8 +81,8 @@ function writeLog {
 
 function quit {
     if [ $isInBreak -eq 1 ]; then exit 0; fi
-	echo "Enter a message: "; read message
-	if [[ $message == "CANCEL" ]]; then exit 1; fi
+	echo "type a comment about session : "; read message
+	#if [[ $message == "CANCEL" ]]; then exit 1; fi
 	writeLog >> $pomodoroLogFile
 
     if [ $autoBreakFlag -eq 1 ] && [ $chronometerFlag -eq 0 ]
@@ -113,7 +114,7 @@ function workEndEvent {
 }
 
 function parseArguments {
-    while getopts "hvcb" opt;
+    while getopts "hvcbt" opt;
     do
         case "$opt" in
         h)
@@ -122,9 +123,18 @@ function parseArguments {
             exit 2
         ;;
 
-        v)
-            # Reserved for verbose mode
+        t)
+          	# Testing feature
+			echo " Test Mode: time is shifting faster "
+			pomodoroWorkMinutes=1
+			pomodoroBreakMinutes=2
+			secondsRefresh=59
         ;;
+
+		v)
+			# Verbose Mode
+
+		;;
 
         c)
             # Chronometer mode on
