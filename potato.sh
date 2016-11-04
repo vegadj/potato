@@ -53,7 +53,7 @@ do
 	let "secs=secs-1"
 	if [ $secs -eq -1 ]; then
 	let "mins=mins-1"
-	let "secs=1"
+	let "secs=$secondsRefresh"
 	fi
 done
 }
