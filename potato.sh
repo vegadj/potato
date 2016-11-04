@@ -27,13 +27,15 @@ chronometerFlag=0
 isInBreak=0
 verboseModeFlag=0
 secondsRefresh=59
+manualModFlag=0
 ## Default fi
 
 function main {
-    parseArguments $@
+	parseArguments $@; shift $((OPTIND-1))
     trap "quit" SIGINT
-    startTime=`date +$hourlogFormat`
-    tag=$1
+    L_startTime=`date +$hourlogFormat`
+    L_tag=$1
+	# TODO Switch case
     if [ $chronometerFlag -eq 1 ]; then
         chronometer
     else
@@ -73,15 +75,21 @@ do
 done
 }
 
+function manualMod {
+parseLastSession
+L_startTime=$P_startTime
+L_mode="M"
+}
+
 function writeLog {
-	currdate=`date +$datelogFormat`
-	stopTime=`date +$hourlogFormat`
-	echo $currdate\; $startTime\; $stopTime\; $tag\; $message 
+	L_currdate=`date +$datelogFormat`
+	L_stopTime=`date +$hourlogFormat`
+	echo $L_currdate\; $L_startTime\; $L_stopTime\; $L_tag\; $L_comment\; $L_mode;
 }
 
 function quit {
     if [ $isInBreak -eq 1 ]; then exit 0; fi
-	echo "type a comment about session : "; read message
+	echo "type a comment about session : "; read L_comment
 	#if [[ $message == "CANCEL" ]]; then exit 1; fi
 	writeLog >> $pomodoroLogFile
 
@@ -113,6 +121,16 @@ function workEndEvent {
     if [ $sayFlag -eq 1 ]; then say $WorkEndMessage; fi
 }
 
+function parseLastSession {
+	P_line=`cat $pomodoroLogFile | tail -n 1`
+	P_date=`echo $P_line | cut -d";" -f1`
+	P_startTime=`echo $P_line | cut -d";" -f2`
+	P_endTime=`echo $P_line | cut -d";" -f3`
+	P_tag=`echo $P_line | cut -d";" -f4`
+	P_comment=`echo $P_line | cut -d";" -f5`
+	P_mode=`echo $P_line | cut -d";" -f6`
+}
+
 function parseArguments {
     while getopts "hvcbt" opt;
     do
@@ -128,7 +146,7 @@ function parseArguments {
 			echo " Test Mode: time is shifting faster "
 			pomodoroWorkMinutes=1
 			pomodoroBreakMinutes=2
-			secondsRefresh=59
+			secondsRefresh=1
         ;;
 
 		v)
@@ -145,6 +163,11 @@ function parseArguments {
             # Chronometer mode on
             autoBreakFlag=1
         ;;
+		
+		m)
+			#manual mod
+			manualModFlag=1
+		;;
 
         esac
 done
