@@ -75,11 +75,7 @@ do
 done
 }
 
-function manualMod {
-parseLastSession
-L_startTime=$P_startTime
-L_mode="M"
-}
+
 
 function writeLog {
 	L_currdate=`date +$datelogFormat`
@@ -120,7 +116,7 @@ function workEndEvent {
     fi
     if [ $sayFlag -eq 1 ]; then say $WorkEndMessage; fi
 }
-
+: '
 function parseLastSession {
 	P_line=`cat $pomodoroLogFile | tail -n 1`
 	P_date=`echo $P_line | cut -d";" -f1`
@@ -131,6 +127,12 @@ function parseLastSession {
 	P_mode=`echo $P_line | cut -d";" -f6`
 }
 
+function manualMod{
+	parseLastSession
+	L_startTime=$P_startTime
+	L_mode="M"
+}
+'
 function parseArguments {
     while getopts "hvcbt" opt;
     do
