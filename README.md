@@ -64,8 +64,8 @@ for auto short break timer, use `-b` flag when running new session. 5 minutes ti
 ## event features
 Using the power of shell, we can pause, break and cancel just like normal we do in normal scripting.
 
-### pausing 
-You can pause potato with `ctrl+z` key combination and resume it just typing `fg` command.
+//### pausing 
+//You can pause potato with `ctrl+z` key combination and resume it just typing `fg` command.
 
 
 ### breaking
