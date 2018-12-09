@@ -65,7 +65,8 @@ for auto short break timer, use `-b` flag when running new session. 5 minutes ti
 Using the power of shell, we can pause, break and cancel just like normal we do in normal scripting.
 
 ### pausing 
-you can pause potato with `ctrl+z` key combination and resume it just typing `fg` command.
+You can pause potato with `ctrl+z` key combination and resume it just typing `fg` command.
+
 
 ### breaking
 to save a season without waiting timer go out; press `ctrl+c` key combination. Comment option will appears and you can finish your session just like normal.
